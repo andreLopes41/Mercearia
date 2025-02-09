@@ -1,0 +1,24 @@
+# O que deve conter no projeto:
+
+-> CRUD: Categoria (Cadastrar / Visualizar / Alterar / Remover)
+-> CRUD: Produto (Cadastrar / Visualizar / Alterar / Remover)
+-> CRUD: Fornecedor (Cadastrar / Visualizar / Alterar / Remover)
+-> CRUD: Cliente (Cadastrar / Visualizar / Alterar / Remover)
+-> CRUD: Funcionário (Cadastrar / Visualizar / Alterar / Remover)
+-> Caixa
+
+# Gerar relatórios:
+
+-> Geral de vendas
+-> vendas por data
+-> Produtos mais vendidos 
+-> Clientes que mais compraram
+
+!!! PONTOS IMPORTANTES !!!
+
+* Utilizar o padrão MVC (Model / View / Controller)
+* O armazenamento das informações deve ser feito de maneira persistente(JSON)
+* Interface do projeto (Terminal)
+* Entrega do projeto finalizado no formato .ZIP
+
+ 
