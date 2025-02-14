@@ -1,7 +1,7 @@
 import os
 import sys
 from datetime import datetime
-from simple_term_menu import TerminalMenu
+import questionary
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -18,7 +18,7 @@ def limpar_tela():
     """Limpa a tela do console
     """
 
-    os.system('clear')
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 def pressionar_enter():
     """Aguarda a tecla ENTER ser pressionada para liberar a interface
@@ -563,13 +563,12 @@ def alterar_categoria():
             item = f'{categoria["nome"]}'
             menu_categorias.append(item)
 
-        menu = create_terminal_menu(menu_categorias, 'Selecione a categoria')
-
-        index = menu.show() 
-
-        if index is None:  
+        categoria_escolhida = create_terminal_menu(menu_categorias, 'Selecione a categoria')
+        
+        if categoria_escolhida is None:
             raise ValueError("Operação cancelada pelo usuário")
             
+        index = menu_categorias.index(categoria_escolhida)
         categoria = categorias[index]
         descricao : str = input('Nova descrição: ')
 
@@ -604,13 +603,12 @@ def excluir_categoria():
             item = f'{categoria["nome"]}'
             menu_categorias.append(item)
 
-        menu = create_terminal_menu(menu_categorias, 'Selecione a categoria')
-
-        index = menu.show() 
-
-        if index is None:  
+        categoria_escolhida = create_terminal_menu(menu_categorias, 'Selecione a categoria')
+        
+        if categoria_escolhida is None:
             raise ValueError("Operação cancelada pelo usuário")
             
+        index = menu_categorias.index(categoria_escolhida)
         categoria = categorias[index]
         
         categoria_controller.excluir_categoria(categoria["nome"])
@@ -644,13 +642,12 @@ def visualizar_categoria():
             item = f'{categoria["nome"]}'
             menu_categorias.append(item)
 
-        menu = create_terminal_menu(menu_categorias, 'Selecione a categoria')
-
-        index = menu.show() 
-
-        if index is None:  
+        categoria_escolhida = create_terminal_menu(menu_categorias, 'Selecione a categoria')
+        
+        if categoria_escolhida is None:
             raise ValueError("Operação cancelada pelo usuário")
             
+        index = menu_categorias.index(categoria_escolhida)
         categoria = categorias[index]
         
         print('╔════════════════════════════════════╗')
@@ -712,13 +709,12 @@ def incluir_produto():
             item = f'{categoria["nome"]}'
             menu_categorias.append(item)
 
-        menu = create_terminal_menu(menu_categorias, 'Categoria')
-
-        index = menu.show() 
-
-        if index is None:  
+        categoria_escolhida = create_terminal_menu(menu_categorias, 'Categoria')
+        
+        if categoria_escolhida is None:
             raise ValueError("Operação cancelada pelo usuário")
             
+        index = menu_categorias.index(categoria_escolhida)
         categoria = categorias[index]
         
         produto_controller.criar_produto(nome, preco, categoria)
@@ -754,13 +750,12 @@ def alterar_produto():
             item = f'{produto["nome"]}'
             menu_produtos.append(item)
 
-        menu = create_terminal_menu(menu_produtos, 'Selecione o produto')
-
-        index = menu.show() 
-
-        if index is None:  
+        produto_escolhido = create_terminal_menu(menu_produtos, 'Selecione o produto')
+        
+        if produto_escolhido is None:
             raise ValueError("Operação cancelada pelo usuário")
             
+        index = menu_produtos.index(produto_escolhido)
         produto = produtos[index]
         
         preco : float = float(input('Novo preço: '))
@@ -772,13 +767,12 @@ def alterar_produto():
             item = f'{categoria["nome"]}'
             menu_categorias.append(item)
 
-        menu = create_terminal_menu(menu_categorias, 'Nova Categoria')
-
-        index = menu.show() 
-
-        if index is None:  
+        categoria_escolhida = create_terminal_menu(menu_categorias, 'Nova Categoria')
+        
+        if categoria_escolhida is None:
             raise ValueError("Operação cancelada pelo usuário")
             
+        index = menu_categorias.index(categoria_escolhida)
         categoria = categorias[index]
         
         produto_controller.atualizar_produto(produto["nome"], preco, categoria)
@@ -813,13 +807,12 @@ def excluir_produto():
             item = f'{produto["nome"]}'
             menu_produtos.append(item)
 
-        menu = create_terminal_menu(menu_produtos, 'Selecione o produto')
-
-        index = menu.show() 
-
-        if index is None:  
+        produto_escolhido = create_terminal_menu(menu_produtos, 'Selecione o produto')
+        
+        if produto_escolhido is None:
             raise ValueError("Operação cancelada pelo usuário")
             
+        index = menu_produtos.index(produto_escolhido)
         produto = produtos[index]
         
         produto_controller.excluir_produto(produto["nome"])
@@ -853,13 +846,12 @@ def visualizar_produto():
             item = f'{produto["nome"]}'
             menu_produtos.append(item)
 
-        menu = create_terminal_menu(menu_produtos, 'Selecione o produto')
-
-        index = menu.show() 
-
-        if index is None:  
+        produto_escolhido = create_terminal_menu(menu_produtos, 'Selecione o produto')
+        
+        if produto_escolhido is None:
             raise ValueError("Operação cancelada pelo usuário")
             
+        index = menu_produtos.index(produto_escolhido)
         produto = produtos[index]
         
         print('╔════════════════════════════════════╗')
@@ -923,13 +915,12 @@ def incluir_fornecedor():
             item = f'{categoria["nome"]}'
             menu_categorias.append(item)
 
-        menu = create_terminal_menu(menu_categorias, 'Categoria')
-
-        index = menu.show() 
-
-        if index is None:  
+        categoria_escolhida = create_terminal_menu(menu_categorias, 'Categoria')
+        
+        if categoria_escolhida is None:
             raise ValueError("Operação cancelada pelo usuário")
             
+        index = menu_categorias.index(categoria_escolhida)
         categoria = categorias[index]
         
         fornecedor_controller.criar_fornecedor(cnpj, nome, categoria)
@@ -965,13 +956,12 @@ def alterar_fornecedor():
             item = f'{fornecedor["nome"]} (CNPJ: {fornecedor["cnpj"]})'
             menu_fornecedores.append(item)
 
-        menu = create_terminal_menu(menu_fornecedores, 'Selecione o fornecedor')
-
-        index = menu.show() 
-
-        if index is None:  
+        fornecedor_escolhido = create_terminal_menu(menu_fornecedores, 'Selecione o fornecedor')
+        
+        if fornecedor_escolhido is None:
             raise ValueError("Operação cancelada pelo usuário")
             
+        index = menu_fornecedores.index(fornecedor_escolhido)
         fornecedor = fornecedores[index]
         
         nome : str = str(input('Novo nome: '))
@@ -983,13 +973,12 @@ def alterar_fornecedor():
             item = f'{categoria["nome"]}'
             menu_categorias.append(item)
 
-        menu = create_terminal_menu(menu_categorias, 'Nova Categoria')
-
-        index = menu.show() 
-
-        if index is None:  
+        categoria_escolhida = create_terminal_menu(menu_categorias, 'Nova Categoria')
+        
+        if categoria_escolhida is None:
             raise ValueError("Operação cancelada pelo usuário")
             
+        index = menu_categorias.index(categoria_escolhida)
         categoria = categorias[index]
         
         fornecedor_controller.atualizar_fornecedor(fornecedor["cnpj"], nome, categoria)
@@ -1024,13 +1013,12 @@ def excluir_fornecedor():
             item = f'{fornecedor["nome"]} (CNPJ: {fornecedor["cnpj"]})'
             menu_fornecedores.append(item)
 
-        menu = create_terminal_menu(menu_fornecedores, 'Selecione o fornecedor')
-
-        index = menu.show() 
-
-        if index is None:  
+        fornecedor_escolhido = create_terminal_menu(menu_fornecedores, 'Selecione o fornecedor')
+        
+        if fornecedor_escolhido is None:
             raise ValueError("Operação cancelada pelo usuário")
             
+        index = menu_fornecedores.index(fornecedor_escolhido)
         fornecedor = fornecedores[index]
         
         fornecedor_controller.excluir_fornecedor(fornecedor["cnpj"])
@@ -1064,13 +1052,12 @@ def visualizar_fornecedor():
             item = f'{fornecedor["nome"]} (CNPJ: {fornecedor["cnpj"]})'
             menu_fornecedores.append(item)
 
-        menu = create_terminal_menu(menu_fornecedores, 'Selecione o fornecedor')
-
-        index = menu.show() 
-
-        if index is None:  
+        fornecedor_escolhido = create_terminal_menu(menu_fornecedores, 'Selecione o fornecedor')
+        
+        if fornecedor_escolhido is None:
             raise ValueError("Operação cancelada pelo usuário")
             
+        index = menu_fornecedores.index(fornecedor_escolhido)
         fornecedor = fornecedores[index]
         
         print('╔════════════════════════════════════╗')
@@ -1157,13 +1144,12 @@ def alterar_cliente():
             item = f'{cliente["nome"]} (CPF: {cliente["cpf"]})'
             menu_clientes.append(item)
 
-        menu = create_terminal_menu(menu_clientes, 'Selecione o cliente')
-
-        index = menu.show() 
-
-        if index is None:  
+        cliente_escolhido = create_terminal_menu(menu_clientes, 'Selecione o cliente')
+        
+        if cliente_escolhido is None:
             raise ValueError("Operação cancelada pelo usuário")
             
+        index = menu_clientes.index(cliente_escolhido)
         cliente = clientes[index]
         
         nome : str = str(input('Novo nome: '))
@@ -1200,13 +1186,12 @@ def excluir_cliente():
             item = f'{cliente["nome"]} (CPF: {cliente["cpf"]})'
             menu_clientes.append(item)
 
-        menu = create_terminal_menu(menu_clientes, 'Selecione o cliente')
-
-        index = menu.show() 
-
-        if index is None:  
+        cliente_escolhido = create_terminal_menu(menu_clientes, 'Selecione o cliente')
+        
+        if cliente_escolhido is None:
             raise ValueError("Operação cancelada pelo usuário")
             
+        index = menu_clientes.index(cliente_escolhido)
         cliente = clientes[index]
         
         cliente_controller.excluir_cliente(cliente["cpf"])
@@ -1240,13 +1225,12 @@ def visualizar_cliente():
             item = f'{cliente["nome"]} (CPF: {cliente["cpf"]})'
             menu_clientes.append(item)
 
-        menu = create_terminal_menu(menu_clientes, 'Selecione o cliente')
-
-        index = menu.show() 
-
-        if index is None:  
+        cliente_escolhido = create_terminal_menu(menu_clientes, 'Selecione o cliente')
+        
+        if cliente_escolhido is None:
             raise ValueError("Operação cancelada pelo usuário")
             
+        index = menu_clientes.index(cliente_escolhido)
         cliente = clientes[index]
         
         print('╔════════════════════════════════════╗')
@@ -1304,14 +1288,12 @@ def incluir_funcionario():
         
         cargos = funcionario_controller.cargos_disponiveis()
 
-        menu = create_terminal_menu(cargos, 'Cargo')
-
-        index = menu.show() 
-
-        if index is None:  
+        cargo_escolhido = create_terminal_menu(cargos, 'Cargo')
+        
+        if cargo_escolhido is None:
             raise ValueError("Operação cancelada pelo usuário")
             
-        cargo = cargos[index]
+        cargo = cargo_escolhido
         
         funcionario_controller.criar_funcionario(cpf, nome, cargo)
         print(f'Cargo: {cargo}')
@@ -1345,27 +1327,24 @@ def alterar_funcionario():
             item = f'{funcionario["nome"]} (CPF: {funcionario["cpf"]})'
             menu_funcionarios.append(item)
 
-        menu = create_terminal_menu(menu_funcionarios, 'Selecione o funcionário')
-
-        index = menu.show() 
-
-        if index is None:  
+        funcionario_escolhido = create_terminal_menu(menu_funcionarios, 'Selecione o funcionário')
+        
+        if funcionario_escolhido is None:
             raise ValueError("Operação cancelada pelo usuário")
             
+        index = menu_funcionarios.index(funcionario_escolhido)
         funcionario = funcionarios[index]
         
         nome : str = str(input('Novo nome: '))
         
         cargos = funcionario_controller.cargos_disponiveis()
 
-        menu = create_terminal_menu(cargos, 'Novo Cargo')
-
-        index = menu.show() 
-
-        if index is None:  
+        cargo_escolhido = create_terminal_menu(cargos, 'Novo Cargo')
+        
+        if cargo_escolhido is None:
             raise ValueError("Operação cancelada pelo usuário")
             
-        cargo = cargos[index]
+        cargo = cargo_escolhido
         
         funcionario_controller.atualizar_funcionario(funcionario["cpf"], nome, cargo)
         print(f'Novo Cargo: {cargo}')
@@ -1399,13 +1378,12 @@ def excluir_funcionario():
             item = f'{funcionario["nome"]} (CPF: {funcionario["cpf"]})'
             menu_funcionarios.append(item)
 
-        menu = create_terminal_menu(menu_funcionarios, 'Selecione o funcionário')
-
-        index = menu.show() 
-
-        if index is None:  
+        funcionario_escolhido = create_terminal_menu(menu_funcionarios, 'Selecione o funcionário')
+        
+        if funcionario_escolhido is None:
             raise ValueError("Operação cancelada pelo usuário")
             
+        index = menu_funcionarios.index(funcionario_escolhido)
         funcionario = funcionarios[index]
         
         funcionario_controller.excluir_funcionario(funcionario["cpf"])
@@ -1439,13 +1417,12 @@ def visualizar_funcionario():
             item = f'{funcionario["nome"]} (CPF: {funcionario["cpf"]})'
             menu_funcionarios.append(item)
 
-        menu = create_terminal_menu(menu_funcionarios, 'Selecione o funcionário')
-
-        index = menu.show() 
-
-        if index is None:  
+        funcionario_escolhido = create_terminal_menu(menu_funcionarios, 'Selecione o funcionário')
+        
+        if funcionario_escolhido is None:
             raise ValueError("Operação cancelada pelo usuário")
             
+        index = menu_funcionarios.index(funcionario_escolhido)
         funcionario = funcionarios[index]
         
         print('╔════════════════════════════════════╗')
@@ -1512,12 +1489,12 @@ def adicionar_estoque():
             item = f'{produto["nome"]} (R$ {produto["preco"]:.2f})'
             menu_produtos.append(item)
 
-        menu = create_terminal_menu(menu_produtos, 'Selecione o produto')
-        index = menu.show()
-
-        if index is None:
+        produto_escolhido = create_terminal_menu(menu_produtos, 'Selecione o produto')
+        
+        if produto_escolhido is None:
             raise ValueError("Operação cancelada pelo usuário")
-
+            
+        index = menu_produtos.index(produto_escolhido)
         produto = produtos[index]
         
         fornecedores = fornecedor_controller.buscar_fornecedores_por_categoria(produto['categoria'])
@@ -1526,12 +1503,12 @@ def adicionar_estoque():
             item = f'{fornecedor["nome"]} (CNPJ: {fornecedor["cnpj"]})'
             menu_fornecedores.append(item)
 
-        menu = create_terminal_menu(menu_fornecedores, 'Selecione o fornecedor')
-        index = menu.show()
-
-        if index is None:
+        fornecedor_escolhido = create_terminal_menu(menu_fornecedores, 'Selecione o fornecedor')
+        
+        if fornecedor_escolhido is None:
             raise ValueError("Operação cancelada pelo usuário")
-
+            
+        index = menu_fornecedores.index(fornecedor_escolhido)
         fornecedor = fornecedores[index]
 
         quantidade : int = int(input('Quantidade: '))
@@ -1609,12 +1586,12 @@ def realizar_venda():
             item = f'{produto["nome"]} (R$ {produto["preco"]:.2f})'
             menu_produtos.append(item)
 
-        menu = create_terminal_menu(menu_produtos, 'Selecione o produto')
-        index = menu.show()
-
-        if index is None:
+        produto_escolhido = create_terminal_menu(menu_produtos, 'Selecione o produto')
+        
+        if produto_escolhido is None:
             raise ValueError("Operação cancelada pelo usuário")
-
+            
+        index = menu_produtos.index(produto_escolhido)
         produto = produtos[index]
         
         quantidade : int = int(input('Quantidade: '))
@@ -1625,12 +1602,12 @@ def realizar_venda():
             item = f'{cliente["nome"]} (CPF: {cliente["cpf"]})'
             menu_clientes.append(item)
 
-        menu = create_terminal_menu(menu_clientes, 'Selecione o cliente')
-        index = menu.show()
-
-        if index is None:
+        cliente_escolhido = create_terminal_menu(menu_clientes, 'Selecione o cliente')
+        
+        if cliente_escolhido is None:
             raise ValueError("Operação cancelada pelo usuário")
-
+            
+        index = menu_clientes.index(cliente_escolhido)
         cliente = clientes[index]
 
         funcionarios = funcionario_controller.listar_funcionarios()
@@ -1643,12 +1620,12 @@ def realizar_venda():
         if not menu_funcionarios:
             raise ValueError("Não há funcionários de cargo vendedor cadastrado no sistema")
 
-        menu = create_terminal_menu(menu_funcionarios, 'Selecione o vendedor')
-        index = menu.show()
-
-        if index is None:
+        vendedor_escolhido = create_terminal_menu(menu_funcionarios, 'Selecione o vendedor')
+        
+        if vendedor_escolhido is None:
             raise ValueError("Operação cancelada pelo usuário")
-
+            
+        index = menu_funcionarios.index(vendedor_escolhido)
         vendedor = funcionarios[index]
 
         venda_controller.realizar_venda(produto, quantidade, cliente, vendedor)
@@ -1984,27 +1961,28 @@ def menu_guia_sistema():
 
     pressionar_enter()
 
-def create_terminal_menu(itens : list, titulo : str) -> TerminalMenu:
-    """Cria um Terninal Menu onde é possível selecionar um item com base em uma navegação intuitiva com o teclado
+def create_terminal_menu(itens : list, titulo : str) -> str:
+    """Cria um menu interativo no terminal usando a biblioteca Questionary.
 
     Args:
-        itens (list): Contexto dos itens a serem exibidos no menu
-        titulo (str): Título do menu
+        itens (list): Lista de opções para exibição no menu.
+        titulo (str): Título do menu.
 
     Returns:
-        TerminalMenu: Retorna o menu com as opções para serem selecionadas pelo usuário
+        str: A opção selecionada pelo usuário.
     """
-
-    return TerminalMenu(
-            menu_entries=itens,
-            title=f'{titulo}: ',
-            menu_cursor=">> ",
-            menu_cursor_style=("fg_green", "bold"),
-            menu_highlight_style=("bg_green", "fg_black"),
-            show_search_hint=True,
-            status_bar="↑↓: Navegar | Enter: Selecionar | ESC: Cancelar",
-            status_bar_style=("fg_yellow", "bold"),
-        )
+    return questionary.select(
+        message=f'{titulo} \n\n ↑↓: Navegar | Enter: Selecionar | CTRL + C: Cancelar \n',
+        choices=itens,
+        qmark=">>",
+        pointer=">> ",
+        style=questionary.Style([
+            ("pointer", "fg:#1E90FF bold"),
+            ("highlighted", "fg:#000000 bg:#1E90FF bold"),
+            ("selected", "fg:#000000 bg:#1E90FF bold"),
+            ("question", "bold fg:#FFCC00")
+        ])
+    ).ask()
 
 try:
     menu_principal()
