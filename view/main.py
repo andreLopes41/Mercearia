@@ -67,7 +67,7 @@ def menu_principal():
              break
         else:
              print('\n')
-             print('Opção inválida!')
+             print('⚠️  Opção inválida!')
              pressionar_enter()
 
 def menu_gestao_sistema():
@@ -83,7 +83,7 @@ def menu_gestao_sistema():
         print('║ [1] 🗂️  Categorias                  ║')
         print('║ [2] 📦 Produtos                    ║')
         print('║ [3] 🚚 Fornecedores                ║')
-        print('║ [4] 🧑🏻 Clientes                    ║')
+        print('║ [4] 👥 Clientes                    ║')
         print('║ [5] 💼 Funcionários                ║')
         print('║ [0] 🔙 Voltar                      ║')
         print('╚════════════════════════════════════╝')
@@ -104,7 +104,7 @@ def menu_gestao_sistema():
             break
         else:
             print('\n')
-            print('⚠️ Opção inválida!')
+            print('⚠️  Opção inválida!')
             pressionar_enter()    
 
 def menu_operacao_relatorio():
@@ -138,7 +138,7 @@ def menu_operacao_relatorio():
             break
         else:
             print('\n')
-            print('⚠️ Opção inválida!')
+            print('⚠️  Opção inválida!')
             pressionar_enter()    
 
 def menu_categoria():
@@ -175,7 +175,7 @@ def menu_categoria():
             break
         else:
             print('\n')
-            print('⚠️ Opção inválida!')
+            print('⚠️  Opção inválida!')
             pressionar_enter()
         
 
@@ -213,7 +213,7 @@ def menu_produto():
             break
         else:
             print('\n')
-            print('⚠️ Opção inválida!')
+            print('⚠️  Opção inválida!')
             pressionar_enter()
 
 def menu_fornecedor():
@@ -250,7 +250,7 @@ def menu_fornecedor():
             break
         else:
             print('\n')
-            print('⚠️ Opção inválida!')
+            print('⚠️  Opção inválida!')
             pressionar_enter()
 
 def menu_cliente():
@@ -261,7 +261,7 @@ def menu_cliente():
         limpar_tela()
 
         print('╔════════════════════════════════════╗')
-        print('║       🧑🏻 GESTÃO DE CLIENTES        ║')
+        print('║       👥 GESTÃO DE CLIENTES        ║')
         print('╠════════════════════════════════════╣')
         print('║ [1] ➕ Incluir Cliente             ║')
         print('║ [2] 📝 Alterar Cliente             ║')
@@ -287,7 +287,7 @@ def menu_cliente():
             break
         else:
             print('\n')
-            print('⚠️ Opção inválida!')
+            print('⚠️  Opção inválida!')
             pressionar_enter()
 
 def menu_funcionario():
@@ -324,7 +324,7 @@ def menu_funcionario():
             break
         else:
             print('\n')
-            print('⚠️ Opção inválida!')
+            print('⚠️  Opção inválida!')
             pressionar_enter()
 
 def menu_caixa():
@@ -355,7 +355,7 @@ def menu_caixa():
             break
         else:
             print('\n')
-            print('⚠️ Opção inválida!')
+            print('⚠️  Opção inválida!')
             pressionar_enter()
 
 def menu_estoque():
@@ -384,7 +384,7 @@ def menu_estoque():
             break
         else:
             print('\n')
-            print('⚠️ Opção inválida!')
+            print('⚠️  Opção inválida!')
             pressionar_enter()
 
 def menu_venda():
@@ -412,7 +412,7 @@ def menu_venda():
             break
         else:
             print('\n')
-            print('⚠️ Opção inválida!')
+            print('⚠️  Opção inválida!')
             pressionar_enter()
 
 def menu_relatorio():
@@ -449,7 +449,7 @@ def menu_relatorio():
             break
         else:
             print('\n')
-            print('⚠️ Opção inválida!')
+            print('⚠️  Opção inválida!')
             pressionar_enter()
 
 def consultar_saldo():
