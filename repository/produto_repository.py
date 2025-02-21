@@ -2,26 +2,29 @@ from model.Produto import Produto
 import json
 import os
 
+
 class ProdutoRepository:
 
     JSON_FILE = '../json/produto.json'
 
     @classmethod
-    def create(cls, produto : Produto) -> None:
+    def create(cls, produto: Produto) -> None:
         """Cria um Novo Produto
 
         Args:
             produto (Produto): Objeto Produto
         """
-        
-        produtos : list = cls.read()
-            
-        produtos.append({
-            "nome": produto.get_nome(),
-            "preco": produto.get_preco(),
-            "categoria": produto.get_categoria()
-        })
-        
+
+        produtos: list = cls.read()
+
+        produtos.append(
+            {
+                'nome': produto.nome,
+                'preco': produto.preco,
+                'categoria': produto.categoria,
+            }
+        )
+
         cls.save(produtos)
 
     @classmethod
@@ -32,45 +35,47 @@ class ProdutoRepository:
             list: Lista de objetos Produto
         """
         os.makedirs('../json', exist_ok=True)
-        
+
         try:
             with open(cls.JSON_FILE, 'r') as arquivo:
                 return json.load(arquivo)
         except FileNotFoundError:
             cls.save([])
             return []
-    
+
     @classmethod
-    def update(cls, produto : Produto) -> None:
+    def update(cls, produto: Produto) -> None:
         """Altera um Produto com base no nome
 
         Args:
             produto (Produto): Objeto Produto com os dados atualizados
         """
-        produtos : list = cls.read()
-        
+        produtos: list = cls.read()
+
         for pro in produtos:
-            if pro["nome"] == produto.get_nome():
-                pro["preco"] = produto.get_preco()
-                pro["categoria"] = produto.get_categoria()
+            if pro['nome'] == produto.nome:
+                pro['preco'] = produto.preco
+                pro['categoria'] = produto.categoria
                 break
-        
+
         cls.save(produtos)
-    
+
     @classmethod
-    def delete(cls, produto : Produto) -> None:
+    def delete(cls, produto: Produto) -> None:
         """Exclui um Produto com base no nome
 
         Args:
             produto (Produto): Objeto Produto
         """
-        produtos : list = cls.read()
+        produtos: list = cls.read()
 
-        produtos = [pro for pro in produtos if pro["nome"] != produto.get_nome()]
+        produtos = [
+            pro for pro in produtos if pro['nome'] != produto.nome
+        ]
         cls.save(produtos)
 
     @classmethod
-    def save(cls, produto : list) -> None:
+    def save(cls, produto: list) -> None:
         """Faz a persistência do Produto em arquivo JSON
 
         Args:

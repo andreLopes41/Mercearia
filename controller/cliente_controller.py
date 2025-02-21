@@ -2,12 +2,14 @@ from model.Cliente import Cliente
 from repository.cliente_repository import ClienteRepository
 import re
 
-class ClienteController:
 
+class ClienteController:
     def __init__(self) -> None:
         self.repository = ClienteRepository()
-    
-    def criar_cliente(self, cpf : str, nome : str, valor_gasto : float = 0.0) -> None:
+
+    def criar_cliente(
+        self, cpf: str, nome: str, valor_gasto: float = 0.0
+    ) -> None:
         """Cria um novo cliente no sistema
 
         Args:
@@ -22,21 +24,21 @@ class ClienteController:
             ValueError: Se já existir um cliente com o CPF informado
         """
         if not cpf or not nome:
-            raise ValueError("CPF e nome são obrigatórios")
-        
+            raise ValueError('CPF e nome são obrigatórios')
+
         if not self.is_cpf_valido(cpf):
-            raise ValueError("CPF inválido")
-            
+            raise ValueError('CPF inválido')
+
         if valor_gasto < 0:
-            raise ValueError("Valor gasto não pode ser negativo")
-            
-        clientes : list = self.listar_clientes()
-        if any(cli["cpf"] == cpf for cli in clientes):
-            raise ValueError("Já existe um cliente com este CPF")
-            
-        novo_cliente : Cliente = Cliente(cpf, nome, valor_gasto)
+            raise ValueError('Valor gasto não pode ser negativo')
+
+        clientes: list = self.listar_clientes()
+        if any(cli['cpf'] == cpf for cli in clientes):
+            raise ValueError('Já existe um cliente com este CPF')
+
+        novo_cliente: Cliente = Cliente(cpf, nome, valor_gasto)
         self.repository.create(novo_cliente)
-    
+
     def listar_clientes(self) -> list:
         """Retorna a lista de todos os clientes
 
@@ -44,8 +46,8 @@ class ClienteController:
             list: Lista de dicionários contendo os dados dos clientes
         """
         return self.repository.read()
-    
-    def buscar_cliente(self, cpf : str) -> Cliente:
+
+    def buscar_cliente(self, cpf: str) -> Cliente:
         """Busca um cliente pelo CPF
 
         Args:
@@ -59,15 +61,17 @@ class ClienteController:
             ValueError: Se o cliente não for encontrado
         """
         if not self.is_cpf_valido(cpf):
-            raise ValueError("CPF inválido")
-            
-        clientes : list = self.repository.read()
+            raise ValueError('CPF inválido')
+
+        clientes: list = self.repository.read()
         for cliente in clientes:
-            if cliente["cpf"] == cpf:
+            if cliente['cpf'] == cpf:
                 return cliente
-        raise ValueError("Cliente não encontrado")
-    
-    def atualizar_cliente(self, cpf : str, nome : str, valor_gasto : float) -> None:
+        raise ValueError('Cliente não encontrado')
+
+    def atualizar_cliente(
+        self, cpf: str, nome: str, valor_gasto: float
+    ) -> None:
         """Atualiza os dados de um cliente existente
 
         Args:
@@ -80,22 +84,22 @@ class ClienteController:
             ValueError: Se o valor gasto for negativo
             ValueError: Se o cliente não for encontrado
         """
-         
+
         if not cpf or not nome:
-            raise ValueError("CPF e nome são obrigatórios")
-            
+            raise ValueError('CPF e nome são obrigatórios')
+
         if not self.is_cpf_valido(cpf):
-            raise ValueError("CPF inválido")
-            
+            raise ValueError('CPF inválido')
+
         if valor_gasto < 0:
-            raise ValueError("Valor gasto não pode ser negativo")
-            
+            raise ValueError('Valor gasto não pode ser negativo')
+
         self.buscar_cliente(cpf)
-        
-        cliente_atualizado : Cliente = Cliente(cpf, nome, valor_gasto)
+
+        cliente_atualizado: Cliente = Cliente(cpf, nome, valor_gasto)
         self.repository.update(cliente_atualizado)
-    
-    def excluir_cliente(self, cpf : str) -> None:
+
+    def excluir_cliente(self, cpf: str) -> None:
         """Exclui um cliente pelo CPF
 
         Args:
@@ -108,17 +112,17 @@ class ClienteController:
         """
 
         if not cpf:
-            raise ValueError("CPF é obrigatório")
-            
+            raise ValueError('CPF é obrigatório')
+
         if not self.is_cpf_valido(cpf):
-            raise ValueError("CPF inválido")
-            
+            raise ValueError('CPF inválido')
+
         self.buscar_cliente(cpf)
-        
-        cliente : Cliente = Cliente(cpf, "", "", 0.0)
+
+        cliente: Cliente = Cliente(cpf, '', 0.0)
         self.repository.delete(cliente)
-    
-    def atualizar_valor_gasto(self, cpf : str, valor_adicional : float) -> None:
+
+    def atualizar_valor_gasto(self, cpf: str, valor_adicional: float) -> None:
         """Atualiza o valor gasto por um cliente
 
         Args:
@@ -131,18 +135,14 @@ class ClienteController:
         """
 
         if valor_adicional < 0:
-            raise ValueError("Valor adicional não pode ser negativo")
-            
-        cliente_atual : Cliente = self.buscar_cliente(cpf)
-        novo_valor : float = cliente_atual["valor_gasto"] + valor_adicional
-        
-        self.atualizar_cliente(
-            cpf,
-            cliente_atual["nome"],
-            novo_valor
-        )
-    
-    def is_cpf_valido(self, cpf : str) -> bool:
+            raise ValueError('Valor adicional não pode ser negativo')
+
+        cliente_atual: Cliente = self.buscar_cliente(cpf)
+        novo_valor: float = cliente_atual['valor_gasto'] + valor_adicional
+
+        self.atualizar_cliente(cpf, cliente_atual['nome'], novo_valor)
+
+    def is_cpf_valido(self, cpf: str) -> bool:
         """Verifica se um CPF é válido
 
         Args:
@@ -151,7 +151,23 @@ class ClienteController:
         Returns:
             bool: True se o CPF for válido, False caso contrário
         """
-        padrao = re.compile(r'^\d{3}\.\d{3}\.\d{3}-\d{2}$')
-        return bool(padrao.match(cpf))
 
-         
+        if not re.match(r'\d{3}\.\d{3}\.\d{3}-\d{2}', cpf):
+            return False
+
+        cpf_digitos = [int(digito) for digito in cpf if digito.isdigit()]
+
+        if len(cpf_digitos) != 11 or len(set(cpf_digitos)) == 1:
+            return False
+
+        soma = sum(a * b for a, b in zip(cpf_digitos[0:9], range(10, 1, -1)))
+        dig_verif_1 = 11 - (soma % 11)
+        if cpf_digitos[9] != dig_verif_1:
+            return False
+
+        soma = sum(a * b for a, b in zip(cpf_digitos[0:10], range(11, 1, -1)))
+        dig_verif_2 = 11 - (soma % 11)
+        if cpf_digitos[10] != dig_verif_2:
+            return False
+
+        return True

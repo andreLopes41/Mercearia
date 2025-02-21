@@ -1,8 +1,8 @@
 from model.Produto import Produto
 
-class Estoque:
 
-    def __init__(self, produto : Produto, quantidade : int) -> None:
+class Estoque:
+    def __init__(self, produto: Produto, quantidade: int) -> None:
         """Classe Estoque
 
         Args:
@@ -12,34 +12,38 @@ class Estoque:
         self.produto = produto
         self.quantidade = quantidade
 
-    def get_produto(self) -> Produto:
+    @property
+    def produto(self) -> Produto:
         """Retorna o Produto do Estoque
 
         Returns:
             Produto: Objeto de Produto
         """
-        return self.produto
-    
-    def set_produto(self, produto : Produto) -> None:
+        return self._produto
+
+    @produto.setter
+    def produto(self, produto: Produto) -> None:
         """Altera o Produto no Estoque
 
         Args:
             produto (Produto): Objeto de Produto
         """
-        self.produto = produto
-    
-    def get_quantidade(self) -> int:
+        self._produto = produto
+
+    @property
+    def quantidade(self) -> int:
         """Retorna a quantidade do Produto no Estoque
 
         Returns:
             int: Quantidade de Produtos
         """
-        return self.quantidade
-    
-    def set_quantidade(self, quantidade : int) -> None:
+        return self._quantidade
+
+    @quantidade.setter
+    def quantidade(self, quantidade: int) -> None:
         """Altera a quantidade do Produto no Estoque
 
         Args:
             quantidade (int): Quantidade de Produtos
         """
-        self.quantidade = quantidade
+        self._quantidade = quantidade

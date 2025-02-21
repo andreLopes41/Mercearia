@@ -1,8 +1,8 @@
 from model.Categoria import Categoria
 
-class Fornecedor:
 
-    def __init__(self, cnpj : str, nome : str, categoria : Categoria) -> None:
+class Fornecedor:
+    def __init__(self, cnpj: str, nome: str, categoria: Categoria) -> None:
         """Classe Fornecedor
 
         Args:
@@ -14,50 +14,56 @@ class Fornecedor:
         self.nome = nome
         self.categoria = categoria
 
-    def get_cnpj(self) -> str:
+    @property
+    def cnpj(self) -> str:
         """Retorna o cnpj do Fornecedor no formato XX.XXX.XXX/XXXX-XX
 
         Returns:
             str: Cnpj do Fornecedor
         """
-        return self.cnpj
-    
-    def set_cnpj(self, cnpj : str) -> None:
+        return self._cnpj
+
+    @cnpj.setter
+    def cnpj(self, cnpj: str) -> None:
         """Altera o cnpj do Fornecedor no formato XX.XXX.XXX/XXXX-XX
 
         Args:
             cnpj (str): Cnpj do Fornecedor
         """
-        self.cnpj = cnpj
+        self._cnpj = cnpj
 
-    def get_nome(self) -> str:
+    @property
+    def nome(self) -> str:
         """Retorna o nome do Fornecedor
 
         Returns:
             str: Nome do Fornecedor
         """
-        return self.nome
-    
-    def set_nome(self, nome : str) -> None:
+        return self._nome
+
+    @nome.setter
+    def nome(self, nome: str) -> None:
         """Altera o nome do Fornecedor
 
         Args:
             nome (str): _description_
         """
-        self.nome = nome
+        self._nome = nome
 
-    def get_categoria(self) -> Categoria:
+    @property
+    def categoria(self) -> Categoria:
         """Retorna a Categoria do Fornecedor
 
         Returns:
             Categoria: Objeto de Categoria
         """
-        return self.categoria
-    
-    def set_categoria(self, categoria : Categoria) -> None:
+        return self._categoria
+
+    @categoria.setter
+    def categoria(self, categoria: Categoria) -> None:
         """Altera a Categoria do Fornecedor
 
         Args:
             categoria (Categoria): Objeto de Categoria
         """
-        self.categoria = categoria
+        self._categoria = categoria

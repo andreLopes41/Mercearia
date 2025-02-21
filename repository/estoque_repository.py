@@ -2,25 +2,28 @@ from model.Estoque import Estoque
 import json
 import os
 
+
 class EstoqueRepository:
 
     JSON_FILE = '../json/estoque.json'
 
     @classmethod
-    def create(cls, item : Estoque) -> None:
+    def create(cls, item: Estoque) -> None:
         """Cria o Estqoue de um Produto
 
         Args:
             item (Estoque): Objeto Estoque
         """
-        
-        estoque : list = cls.read()
-            
-        estoque.append({
-            "produto": item.get_produto(),
-            "quantidade": item.get_quantidade()
-        })
-        
+
+        estoque: list = cls.read()
+
+        estoque.append(
+            {
+                'produto': item.produto,
+                'quantidade': item.quantidade,
+            }
+        )
+
         cls.save(estoque)
 
     @classmethod
@@ -31,44 +34,46 @@ class EstoqueRepository:
             list: Lista de Estqoues dos Produtos
         """
         os.makedirs('../json', exist_ok=True)
-        
+
         try:
             with open(cls.JSON_FILE, 'r') as arquivo:
                 return json.load(arquivo)
         except FileNotFoundError:
             cls.save([])
             return []
-    
+
     @classmethod
-    def update(cls, item : Estoque) -> None:
+    def update(cls, item: Estoque) -> None:
         """Altera um Estoque com base no Produto
 
         Args:
             item (Estoque): Objeeto Estoque com os dados atualizados
         """
-        estoque : list = cls.read()
-        
+        estoque: list = cls.read()
+
         for itm in estoque:
-            if itm["produto"] == item.get_produto():
-                itm["quantidade"] = item.get_quantidade()
+            if itm['produto'] == item.produto:
+                itm['quantidade'] = item.quantidade
                 break
-        
+
         cls.save(estoque)
-    
+
     @classmethod
-    def delete(cls, item : Estoque) -> None:
+    def delete(cls, item: Estoque) -> None:
         """Exclui um Estoque com base no Produto
 
         Args:
             item (Estoque): Objeto Estoque
         """
-        estoque : list = cls.read()
-        
-        estoque = [itm for itm in estoque if itm["produto"] != item.get_produto()]
+        estoque: list = cls.read()
+
+        estoque = [
+            itm for itm in estoque if itm['produto'] != item.produto
+        ]
         cls.save(estoque)
 
     @classmethod
-    def save(cls, estoque : list) -> None:
+    def save(cls, estoque: list) -> None:
         """Faz a persistência do Estoque em arquivo JSON
 
         Args:

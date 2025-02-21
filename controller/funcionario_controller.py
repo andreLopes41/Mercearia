@@ -2,6 +2,7 @@ from model.Funcionario import Funcionario
 from repository.funcionario_repository import FuncionarioRepository
 import re
 
+
 class FuncionarioController:
     def __init__(self) -> None:
         """Inicializa o controlador de Funcionário
@@ -19,10 +20,10 @@ class FuncionarioController:
             'Padeiro',
             'Repositor',
             'Supervisor',
-            'Vendedor'
+            'Vendedor',
         ]
-    
-    def criar_funcionario(self, cpf : str, nome : str, cargo : str) -> None:
+
+    def criar_funcionario(self, cpf: str, nome: str, cargo: str) -> None:
         """Adiciona um novo funcionário ao sistema
 
         Args:
@@ -37,21 +38,23 @@ class FuncionarioController:
             ValueError: Se já existir um funcionário com este CPF
         """
         if not cpf or not nome or not cargo:
-            raise ValueError("CPF, nome e cargo são obrigatórios")
-        
+            raise ValueError('CPF, nome e cargo são obrigatórios')
+
         if not self.is_cpf_valido(cpf):
-            raise ValueError("CPF inválido")
-            
+            raise ValueError('CPF inválido')
+
         if not self.is_cargo_valido(cargo):
-            raise ValueError(f"Cargo inválido. Cargos permitidos: {', '.join(self.cargos_validos)}")
-            
-        funcionarios : list = self.listar_funcionarios()
-        if any(fun["cpf"] == cpf for fun in funcionarios):
-            raise ValueError("Já existe um funcionário com este CPF")
-            
-        novo_funcionario : Funcionario = Funcionario(cpf, nome, cargo)
+            raise ValueError(
+                f"Cargo inválido. Cargos permitidos: {', '.join(self.cargos_validos)}"
+            )
+
+        funcionarios: list = self.listar_funcionarios()
+        if any(fun['cpf'] == cpf for fun in funcionarios):
+            raise ValueError('Já existe um funcionário com este CPF')
+
+        novo_funcionario: Funcionario = Funcionario(cpf, nome, cargo)
         self.repository.create(novo_funcionario)
-    
+
     def listar_funcionarios(self) -> list:
         """Retorna a lista de todos os funcionários cadastrados
 
@@ -59,8 +62,8 @@ class FuncionarioController:
             list: Lista de dicionários contendo os dados dos funcionários
         """
         return self.repository.read()
-    
-    def buscar_funcionario(self, cpf : str) -> dict:
+
+    def buscar_funcionario(self, cpf: str) -> dict:
         """Busca um funcionário pelo CPF
 
         Args:
@@ -74,15 +77,15 @@ class FuncionarioController:
             ValueError: Se o funcionário não for encontrado
         """
         if not self.is_cpf_valido(cpf):
-            raise ValueError("CPF inválido")
-            
-        funcionarios : list = self.repository.read()
+            raise ValueError('CPF inválido')
+
+        funcionarios: list = self.repository.read()
         for funcionario in funcionarios:
-            if funcionario["cpf"] == cpf:
+            if funcionario['cpf'] == cpf:
                 return funcionario
-        raise ValueError("Funcionário não encontrado")
-    
-    def buscar_funcionarios_por_cargo(self, cargo : str) -> list:
+        raise ValueError('Funcionário não encontrado')
+
+    def buscar_funcionarios_por_cargo(self, cargo: str) -> list:
         """Busca todos os funcionários de um determinado cargo
 
         Args:
@@ -95,12 +98,18 @@ class FuncionarioController:
             ValueError: Se o cargo não for válido
         """
         if not self.is_cargo_valido(cargo):
-            raise ValueError(f"Cargo inválido. Cargos permitidos: {', '.join(self.cargos_validos)}")
-            
+            raise ValueError(
+                f"Cargo inválido. Cargos permitidos: {', '.join(self.cargos_validos)}"
+            )
+
         funcionarios = self.repository.read()
-        return [fun for fun in funcionarios if fun["cargo"].lower() == cargo.lower()]
-    
-    def atualizar_funcionario(self, cpf : str, nome : str, cargo : str) -> None:
+        return [
+            fun
+            for fun in funcionarios
+            if fun['cargo'].lower() == cargo.lower()
+        ]
+
+    def atualizar_funcionario(self, cpf: str, nome: str, cargo: str) -> None:
         """Atualiza os dados de um funcionário existente
 
         Args:
@@ -115,20 +124,22 @@ class FuncionarioController:
             ValueError: Se o funcionário não for encontrado
         """
         if not cpf or not nome or not cargo:
-            raise ValueError("CPF, nome e cargo são obrigatórios")
-            
+            raise ValueError('CPF, nome e cargo são obrigatórios')
+
         if not self.is_cpf_valido(cpf):
-            raise ValueError("CPF inválido")
-            
+            raise ValueError('CPF inválido')
+
         if not self.is_cargo_valido(cargo):
-            raise ValueError(f"Cargo inválido. Cargos permitidos: {', '.join(self.cargos_validos)}")
-            
+            raise ValueError(
+                f"Cargo inválido. Cargos permitidos: {', '.join(self.cargos_validos)}"
+            )
+
         self.buscar_funcionario(cpf)
-        
-        funcionario_atualizado : Funcionario = Funcionario(cpf, nome, cargo)
+
+        funcionario_atualizado: Funcionario = Funcionario(cpf, nome, cargo)
         self.repository.update(funcionario_atualizado)
-    
-    def excluir_funcionario(self, cpf : str) -> None:
+
+    def excluir_funcionario(self, cpf: str) -> None:
         """Remove um funcionário do sistema
 
         Args:
@@ -140,17 +151,17 @@ class FuncionarioController:
             ValueError: Se o funcionário não for encontrado
         """
         if not cpf:
-            raise ValueError("CPF é obrigatório")
-            
+            raise ValueError('CPF é obrigatório')
+
         if not self.is_cpf_valido(cpf):
-            raise ValueError("CPF inválido")
-            
+            raise ValueError('CPF inválido')
+
         self.buscar_funcionario(cpf)
-        
-        funcionario : Funcionario = Funcionario(cpf, "", "")
+
+        funcionario: Funcionario = Funcionario(cpf, '', '')
         self.repository.delete(funcionario)
-    
-    def is_cargo_valido(self, cargo : str) -> bool:
+
+    def is_cargo_valido(self, cargo: str) -> bool:
         """Verifica se um cargo é válido no sistema
 
         Args:
@@ -168,15 +179,33 @@ class FuncionarioController:
             list: Lista contendo todos os cargos válidos
         """
         return self.cargos_validos
-    
-    def is_cpf_valido(self, cpf : str) -> bool:
-        """Verifica se um CPF está em formato válido
+
+    def is_cpf_valido(self, cpf: str) -> bool:
+        """Verifica se um CPF é válido
 
         Args:
             cpf (str): CPF a ser validado no formato XXX.XXX.XXX-XX
 
         Returns:
-            bool: True se o CPF estiver em formato válido, False caso contrário
+            bool: True se o CPF for válido, False caso contrário
         """
-        padrao = re.compile(r'^\d{3}\.\d{3}\.\d{3}-\d{2}$')
-        return bool(padrao.match(cpf))
+
+        if not re.match(r'\d{3}\.\d{3}\.\d{3}-\d{2}', cpf):
+            return False
+
+        cpf_digitos = [int(digito) for digito in cpf if digito.isdigit()]
+
+        if len(cpf_digitos) != 11 or len(set(cpf_digitos)) == 1:
+            return False
+
+        soma = sum(a * b for a, b in zip(cpf_digitos[0:9], range(10, 1, -1)))
+        dig_verif_1 = 11 - (soma % 11)
+        if cpf_digitos[9] != dig_verif_1:
+            return False
+
+        soma = sum(a * b for a, b in zip(cpf_digitos[0:10], range(11, 1, -1)))
+        dig_verif_2 = 11 - (soma % 11)
+        if cpf_digitos[10] != dig_verif_2:
+            return False
+
+        return True
